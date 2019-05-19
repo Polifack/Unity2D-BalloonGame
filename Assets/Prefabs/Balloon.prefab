@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8300881927123448528}
   - component: {fileID: 8300881927123448531}
   m_Layer: 0
-  m_Name: baloon
+  m_Name: Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +96,8 @@ MonoBehaviour:
   airP: 1
   airInflat: 0.1
   id: 0
+  deinflateCd: 1
+  _deinflateCounter: 0
 --- !u!58 &8300881927123448531
 CircleCollider2D:
   m_ObjectHideFlags: 0
