@@ -55,7 +55,6 @@ public class Player : MonoBehaviour
             _balloonButtons[i].OnClickDown += _balloons[i].StartDeinflate;
             _balloonButtons[i].OnClickUp += _balloons[i].StopDeinflate;
             _balloonButtons[i].OnDoubleClick +=  _balloons[i].Explode;
-            _balloonButtons[i].SetColor(colores[i]);
         }
     }    
 
