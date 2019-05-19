@@ -12,14 +12,16 @@ public class Player : MonoBehaviour
     public float baloonWeight;
     public Baloon baloonPrefab;
     public Transform[] baloonsPositions;
+    public Color[] colores;
 
-    Baloon[] _baloons;
+    BalloonButtonManager[] _balloonButtons;
+    Baloon[] _balloons;
     Rigidbody2D _rb;
     int _nBalloons;
     Vector2 _viewp;
     bool _isWraping = false;
     PuntuationManager _pointMgr;
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -30,33 +32,32 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning(" * Only one player per scene!");
         }
+
         _rb = GetComponent<Rigidbody2D>();
         _pointMgr = new PuntuationManager();
         _viewp = Camera.main.WorldToViewportPoint(transform.position);
-
-        _nBalloons = 3;
-        _baloons = new Baloon[_nBalloons];
-
-        //Inicialización de los globos. 1-> Izda. 2-> Dcha. 3-> Centro.
-
-        _baloons[0] = Instantiate(baloonPrefab, baloonsPositions[0]);
-        _baloons[0].OnExplode += Balloon_OnExplode;
-        _baloons[0].id = 0;
-        _baloons[0].color = Color.red;
-        _baloons[0].setColor();
-
-        _baloons[1] = Instantiate(baloonPrefab, baloonsPositions[1]);
-        _baloons[1].OnExplode += Balloon_OnExplode;
-        _baloons[1].id = 1;
-        _baloons[1].color = Color.blue;
-        _baloons[1].setColor();
-
-        _baloons[2] = Instantiate(baloonPrefab, baloonsPositions[2]);
-        _baloons[2].OnExplode += Balloon_OnExplode;
-        _baloons[2].id = 2;
-        _baloons[2].color = Color.green;
-        _baloons[2].setColor();
     }
+
+    private void Start()
+    {
+        _nBalloons = 3;
+        _balloons = new Baloon[_nBalloons];
+        _balloonButtons = new BalloonButtonManager[_nBalloons];
+        _balloonButtons = UIManager.singleton.GetActiveCanvas().GetComponentsInChildren<BalloonButtonManager>();
+
+        for (int i = 0; i<_nBalloons; i++)
+        {
+            _balloons[i] = Instantiate(baloonPrefab, baloonsPositions[i]);
+            _balloons[i].OnExplode += Balloon_OnExplode;
+            _balloons[i].id = i;
+            _balloons[i].setColor(colores[i]);
+
+            _balloonButtons[i].OnClickDown += _balloons[i].StartDeinflate;
+            _balloonButtons[i].OnClickUp += _balloons[i].StopDeinflate;
+            _balloonButtons[i].OnDoubleClick +=  _balloons[i].Explode;
+            _balloonButtons[i].SetColor(colores[i]);
+        }
+    }    
 
     private void Balloon_OnExplode(object sender, EventArgs e)
     {
@@ -64,7 +65,6 @@ public class Player : MonoBehaviour
         _nBalloons--;
         //Ejecutamos la funcion de re-arrangear
         Baloon b = (Baloon)sender;
-        Debug.Log(" * Balloon Exploded: "+b.id);
         Destroy(b.gameObject);
         rearrange(b.id);
     }
@@ -74,10 +74,10 @@ public class Player : MonoBehaviour
         float left = 0f;
         float right = 0f;
 
-        if ((_baloons[0] != null) && (_baloons[1] != null))
+        if ((_balloons[0] != null) && (_balloons[1] != null))
         {
-            left = _baloons[0].airP;
-            right = _baloons[1].airP;
+            left = _balloons[0].airP;
+            right = _balloons[1].airP;
         }
         return right - left;
     }
@@ -85,8 +85,8 @@ public class Player : MonoBehaviour
     private float computeY()
     {
         float speed = 1f;
-        if (_baloons[2]!=null)
-            speed = _baloons[2].airP;
+        if (_balloons[2]!=null)
+            speed = _balloons[2].airP;
         return speed;
     }
 
@@ -97,14 +97,14 @@ public class Player : MonoBehaviour
             if (position == 0)
             {
                 swap(0, 2); //Si perdimos el globo izquierdo, cambiamos el superior por el izquierdo.
-                _baloons[0].moveToNextBalloon(0);
-                _baloons[0].id = 0; //Actualizamos el 'id' del objeto
+                _balloons[0].moveToNextBalloon(0);
+                _balloons[0].id = 0; //Actualizamos el 'id' del objeto
             }
             if (position == 1)
             {
                 swap(1, 2); //Si perdimos el globo derecho, cambiamos el superior por el derecho.
-                _baloons[1].moveToNextBalloon(1);  //Actualizamos la posicion del objeto
-                _baloons[1].id = 1; //Actualizamos el 'id' del objeto
+                _balloons[1].moveToNextBalloon(1);  //Actualizamos la posicion del objeto
+                _balloons[1].id = 1; //Actualizamos el 'id' del objeto
             }
 
             //Si perdimos el globo superior no hacemos nada
@@ -114,23 +114,23 @@ public class Player : MonoBehaviour
             if (position == 0)
             {
                 swap(2, 1); //Si perdimos el globo izquierdo, cambiamos el derecho por el superior.
-                _baloons[2].moveToNextBalloon(2); //Actualizamos la posicion del objeto
-                _baloons[2].id = 2; //Actualizamos el 'id' del objeto
+                _balloons[2].moveToNextBalloon(2); //Actualizamos la posicion del objeto
+                _balloons[2].id = 2; //Actualizamos el 'id' del objeto
             }
             if (position == 1)
             {
                 swap(2, 0); //Si perdimos el globo derecho, cambiamos el izquierdo por el superior.
-                _baloons[2].moveToNextBalloon(2);  //Actualizamos la posicion del objeto
-                _baloons[2].id = 2; //Actualizamos el 'id' del objeto
+                _balloons[2].moveToNextBalloon(2);  //Actualizamos la posicion del objeto
+                _balloons[2].id = 2; //Actualizamos el 'id' del objeto
             }
         }
     }
 
     private void swap(int pos1, int pos2)
     {
-        Baloon temp = _baloons[pos1];
-        _baloons[pos1] = _baloons[pos2];
-        _baloons[pos2] = temp;
+        Baloon temp = _balloons[pos1];
+        _balloons[pos1] = _balloons[pos2];
+        _balloons[pos2] = temp;
     }
 
     private void ScreenWrap()
@@ -140,7 +140,6 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
             _isWraping = true;
-            //_rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
         }
         if (_isWraping && (_viewp.x > 0.15 && _viewp.x < 0.85))
         {
@@ -162,18 +161,5 @@ public class Player : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, comptueX()* baloonWeight);
             _rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
         }
-
-
-        if (InputManager.instance.getInput("globo_i").isPressed()) _baloons[0].DeInflate();
-        if (InputManager.instance.getInput("globo_c").isPressed()) _baloons[2].DeInflate();
-        if (InputManager.instance.getInput("globo_d").isPressed()) _baloons[1].DeInflate();
-        
-        //Hay que comprobar que siguen "vivos" antes de intentar explotarlos otra vez
-        //Cuando un globo explota debido a como tenemos montao todo el tinglado sigue estando las mismas teclas asignadas
-        //Habría que hacer null checking de todas formas
-        if (InputManager.instance.getInput("globo_i").OnPointerDown()) _baloons[0].Explode();
-        if (InputManager.instance.getInput("globo_c").OnPointerDown()) _baloons[2].Explode();
-        if (InputManager.instance.getInput("globo_d").OnPointerDown()) _baloons[1].Explode();
-
     }
 }

@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
             singleton = this;
             DontDestroyOnLoad(gameObject);
         }
+        UIManager.singleton.ChangeActiveScreen("uiDefault");
     }
 
     private void Start()
@@ -35,7 +36,6 @@ public class GameManager : MonoBehaviour
             ScreenEffects.singleton.setBlack();
             AudioManager.singleton.Play("ostRolling");
         }
-        UIManager.singleton.ChangeActiveScreen("uiDefault");
     }
 
     private IEnumerator StartGameCorroutine(int delay)

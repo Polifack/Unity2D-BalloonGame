@@ -6,6 +6,8 @@ using UnityEngine;
 //Custom implementation of Input Manager
 
 //Goals: Asignar acciones a un conjunto de keys
+//Tambien se podrían llamar a las acciones al presionar botones
+//¿Uso de events?
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
@@ -18,7 +20,6 @@ public class InputManager : MonoBehaviour
         public float doublePressTimeout = 1f;
         private float _timeSinceClick;
         private float _lastClickTime;
-        private bool _hasBeenDoublePressed = false;
 
         public bool isPressed()
         {
@@ -46,7 +47,7 @@ public class InputManager : MonoBehaviour
         float clicktime = 0;
         float clickdelay = 1f;
 
-        public bool OnPointerDown()
+        public bool checkDoubleClick()
         {
             if (checkClick())
             {
@@ -69,12 +70,6 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
-        foreach (Input input in inputs)
-        {
-            Debug.Log(input.nameInput);
-            Debug.Log(input.key);
-        }
     }
 
     public Input getInput(string inputName)

@@ -40,12 +40,15 @@ public class UIManager : MonoBehaviour
         Canvas currentCanvas = Instantiate(screen.source);
         _activeScreen = screen;
         _activeCanvas = currentCanvas;
-
-
-
     }
+
     public bool IsActiveScreen(string screenName)
     {
         return screenName == _activeScreen.nameCanvas;
+    }
+
+    public Canvas GetActiveCanvas()
+    {
+        return _activeCanvas;
     }
 }

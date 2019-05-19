@@ -9,24 +9,38 @@ public class Baloon : MonoBehaviour
     public float airInflat = 0.1f;
     public int id;
     public float deinflateCd = 1f;
-    public Color color;
     private bool _hasToMove = false;
     private int _nextPositionIndex;
     private float _moveSpeed = 1f;
     public float _deinflateCounter = 0f;
     private SpriteRenderer sr;
+    private bool _deinflating = false;
+
+    public event EventHandler OnExplode;
 
     private void Awake()
     {
         _deinflateCounter = deinflateCd;
         sr = GetComponent<SpriteRenderer>();
     }
-
-    public event EventHandler OnExplode;
-
-    public void setColor()
+    public void setColor(Color color)
     {
         sr.color = color;
+    }
+
+    public void StartDeinflate(object sender, EventArgs e)
+    {
+        _deinflating = true;
+    }
+    public void StopDeinflate(object sender, EventArgs e)
+    {
+        _deinflating = false;
+    }
+    public void Explode(object sender, EventArgs e)
+    {
+        airP = 0;
+        OnExplode(this, EventArgs.Empty);
+        //Destroy(gameObject);
     }
 
     public void Inflate()
@@ -34,7 +48,6 @@ public class Baloon : MonoBehaviour
         airP = Mathf.Clamp((airP + airInflat * Time.deltaTime), 0f, 1f);
         transform.position += new Vector3(0, 0.1f * Time.deltaTime, 0);
     }
-
     public void DeInflate()
     {
         Debug.Log("DeInflating! "+ id);
@@ -42,24 +55,20 @@ public class Baloon : MonoBehaviour
         transform.position -= new Vector3(0, 0.1f * Time.deltaTime, 0);
         _deinflateCounter = 0f;
     }
-
-    public void Explode()
-    {
-        airP = 0;
-        OnExplode(this, EventArgs.Empty);
-        //Destroy(gameObject);
-    }
-
     public void moveToNextBalloon(int next)
     {
         _hasToMove = true;
         _nextPositionIndex = next;
     }
-
     private void FixedUpdate()
     {
         //Cambiar por Animator
         transform.localScale = new Vector3(airP, airP, transform.localScale.z);
+
+        if (_deinflating)
+        {
+            DeInflate();
+        }
 
         if (airP < 1f && _deinflateCounter > deinflateCd)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class Bird : MonoBehaviour
     int _direction = 1;
     Rigidbody2D _rb;
     BoxCollider2D _bc;
+
+    public EventHandler onCollison;
 
     private void OnBecameInvisible()
     {
@@ -19,7 +22,7 @@ public class Bird : MonoBehaviour
         if (b != null)
         {
             Debug.Log("collided with " + b.id);
-            b.Explode();
+            onCollison(this, null);
             _bc.enabled = false;
         }
     }
