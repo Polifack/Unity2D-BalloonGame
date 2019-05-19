@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Baloon : MonoBehaviour
@@ -40,7 +38,6 @@ public class Baloon : MonoBehaviour
     {
         airP = 0;
         OnExplode(this, EventArgs.Empty);
-        //Destroy(gameObject);
     }
 
     public void Inflate()
@@ -50,7 +47,6 @@ public class Baloon : MonoBehaviour
     }
     public void DeInflate()
     {
-        Debug.Log("DeInflating! "+ id);
         airP = Mathf.Clamp((airP - airInflat * Time.deltaTime), 0f, 2f);
         transform.position -= new Vector3(0, 0.1f * Time.deltaTime, 0);
         _deinflateCounter = 0f;

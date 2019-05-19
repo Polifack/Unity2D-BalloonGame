@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         //Ejecutamos la funcion de re-arrangear
         Baloon b = (Baloon)sender;
         Destroy(b.gameObject);
-        rearrange(b.id);
+        reArrangePosition(b.id);
     }
 
     private float comptueX()
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         return speed;
     }
 
-    private void rearrange(int position)
+    private void reArrangePosition(int position)
     {
         if (_nBalloons == 2)
         {
