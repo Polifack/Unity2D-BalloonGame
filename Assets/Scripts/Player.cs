@@ -40,24 +40,29 @@ public class Player : MonoBehaviour
         _pointMgr = new PuntuationManager();
         _viewp = Camera.main.WorldToViewportPoint(transform.position);
     }
-
-    private void Start()
+    public void SetupBalloons()
     {
         _nBalloons = 3;
         _balloons = new Balloon[_nBalloons];
-        _balloonButtons = new BalloonButtonManager[_nBalloons];
-        _balloonButtons = UIManager.singleton.GetActiveCanvas().GetComponentsInChildren<BalloonButtonManager>();
 
-        for (int i = 0; i<_nBalloons; i++)
+        for (int i = 0; i < _nBalloons; i++)
         {
             _balloons[i] = Instantiate(baloonPrefab, baloonsPositions[i]);
             _balloons[i].OnExplode += Balloon_OnExplode;
             _balloons[i].balloonId = i;
-            _balloons[i].setColor ( colors[i]);
+            _balloons[i].setColor(colors[i]);
+        }
+    }
 
+    public void SetupBalloonButtons()
+    {
+        _balloonButtons = new BalloonButtonManager[_nBalloons];
+        _balloonButtons = UIManager.singleton.GetActiveCanvas().GetComponentsInChildren<BalloonButtonManager>();
+        for (int i = 0; i < _nBalloons; i++)
+        {
             _balloonButtons[i].setupButton(_balloons[i]);
         }
-    }    
+    }
 
     private void Balloon_OnExplode(object sender, EventArgs e)
     {

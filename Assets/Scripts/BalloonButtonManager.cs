@@ -25,12 +25,10 @@ public class BalloonButtonManager : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(" * On Pointer Click");
         _clicked++;
         if (_clicked == 1) _clickTime = Time.time;
         if (_clicked > 1 && Time.time - _clickTime < clickDelay)
         {
-            Debug.Log(" * On Pointer Double Click");
             _clicked = 0;
             _clickTime = 0;
             _anim.Play("Explode");

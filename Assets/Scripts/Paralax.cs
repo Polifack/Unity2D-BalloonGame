@@ -53,7 +53,7 @@ public class Paralax : MonoBehaviour
     private void FixedUpdate()
     {
         float deltaY = cameraTransform.position.y - _lastCameraY;
-        transform.position += Vector3.down * (deltaY * parallaxSpeed);
+        transform.position += Vector3.down * (parallaxSpeed);
         _lastCameraY = cameraTransform.position.y;
 
         if (cameraTransform.position.y > (backgrounds[downBck].position.y)+ viewPort)

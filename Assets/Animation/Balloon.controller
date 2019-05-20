@@ -6,7 +6,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BalloonColor_0
+  m_Name: Balloon
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -85,7 +85,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102830390805826874}
-    m_Position: {x: 264, y: 108, z: 0}
+    m_Position: {x: 264, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102625851800957770}
     m_Position: {x: 228, y: 252, z: 0}

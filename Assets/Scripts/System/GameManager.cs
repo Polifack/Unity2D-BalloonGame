@@ -25,25 +25,41 @@ public class GameManager : MonoBehaviour
             singleton = this;
             DontDestroyOnLoad(gameObject);
         }
-        UIManager.singleton.ChangeActiveScreen("uiDefault");
     }
 
     private void Start()
     {
-        Player.instance.canMove = true;
+        LevelGenerator.instance.Generate();
         if (!debug)
         {
+            Player.instance.SetupBalloons();
+            StartCoroutine(ScreenEffects.singleton.fadeIn(0.01f));
+            UIManager.singleton.ChangeActiveScreen("uiMainMenu");
             ScreenEffects.singleton.setBlack();
-            StartCoroutine(StartGameCorroutine(5));
             AudioManager.singleton.Play("ostMexico");
         }
+        else
+        {
+            Player.instance.SetupBalloons();
+            Player.instance.SetupBalloonButtons();
+            UIManager.singleton.ChangeActiveScreen("uiDefault");
+            Player.instance.canMove = true;
+            ScreenEffects.singleton.canMove = true;
+        }
+    }
+
+    public void GoToStartGame()
+    {
+        StartCoroutine(StartGameCorroutine(1));
     }
 
     private IEnumerator StartGameCorroutine(int delay)
     {
-        StartCoroutine(ScreenEffects.singleton.fadeIn(0.01f));
+        UIManager.singleton.ChangeActiveScreen("uiDefault");
+        Player.instance.SetupBalloonButtons();
         yield return new WaitForSeconds(delay);
         Player.instance.canMove = true;
+        ScreenEffects.singleton.canMove = true;
         yield return null;
     }
 }

@@ -5,6 +5,12 @@ using System.Collections;
 [RequireComponent(typeof(Camera))]
 public class ScreenEffects : MonoBehaviour
 {
+    [Header("Follow Settings")]
+    public Player target;
+    public bool canMove = false;
+
+
+    [Header("Fade-In Settings")]
     public Shader shader;
 
     [Range(0,1.0f)]
@@ -92,6 +98,14 @@ public class ScreenEffects : MonoBehaviour
         {
             maskValue -= delta;
             yield return null;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (canMove)
+        {
+            transform.position += new Vector3(0, target.velocity * Time.deltaTime, 0);
         }
     }
 }
