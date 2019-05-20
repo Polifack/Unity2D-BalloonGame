@@ -18,10 +18,10 @@ public class Bird : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Baloon b = collision.gameObject.GetComponent<Baloon>();
+        Balloon b = collision.gameObject.GetComponent<Balloon>();
         if (b != null)
         {
-            Debug.Log("collided with " + b.id);
+            Debug.Log("collided with " + b.balloonId);
             onCollison(this, null);
             _bc.enabled = false;
         }

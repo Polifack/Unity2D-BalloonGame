@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,24 +10,30 @@ public class BalloonButtonManager : MonoBehaviour, IPointerDownHandler, IPointer
     public event EventHandler OnClickUp;
     public event EventHandler OnDoubleClick;
 
-    Image _img;
     float _clicked = 0;
     float _clickTime = 0;
     float clickDelay = 1f;
 
+    Animator _anim;
+    Image _img;
+
     private void Awake()
     {
+        _anim = GetComponent<Animator>();
         _img = GetComponent<Image>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log(" * On Pointer Click");
         _clicked++;
         if (_clicked == 1) _clickTime = Time.time;
         if (_clicked > 1 && Time.time - _clickTime < clickDelay)
         {
+            Debug.Log(" * On Pointer Double Click");
             _clicked = 0;
             _clickTime = 0;
+            _anim.Play("Explode");
             OnDoubleClick(this, null);
         }
         else if (_clicked > 2 || Time.time - _clickTime > 1) _clicked = 0;
@@ -45,9 +49,11 @@ public class BalloonButtonManager : MonoBehaviour, IPointerDownHandler, IPointer
         OnClickUp(this, null);
     }
     
-    public void SetColor(Color c)
+    public void setupButton(Balloon b)
     {
-        if (_img != null)
-        _img.color = c;
+        OnClickDown += b.StartDeinflate;
+        OnClickUp += b.StopDeinflate;
+        OnDoubleClick += b.Explode;
+        _img.color = b.getColor();
     }
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Paralax : MonoBehaviour
 {
+    [Tooltip("Tamaño de la imagen usada dividido entre 10")]
     public float backgroundSize;
     public float parallaxSpeed;
     public Transform cameraTransform;
+    public float viewPort = 10;
 
     private int downBck;
     private int upBckg;
@@ -54,7 +56,7 @@ public class Paralax : MonoBehaviour
         transform.position += Vector3.down * (deltaY * parallaxSpeed);
         _lastCameraY = cameraTransform.position.y;
 
-        if (cameraTransform.position.y > (backgrounds[downBck].position.y)+ backgroundSize)
+        if (cameraTransform.position.y > (backgrounds[downBck].position.y)+ viewPort)
             ScrollUp();
     }
 }

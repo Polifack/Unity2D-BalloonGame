@@ -73,7 +73,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 15, y: 0}
   m_SizeDelta: {x: 600.5, y: 120}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8494826692455535007
@@ -105,19 +105,19 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: c6f08dbb03bfa7047b2256b512c413ed, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 200
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PUNTUACI\xD3N"
+  m_Text: POINTS
 --- !u!114 &8494826692455535000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 8494826692673140919}
   - component: {fileID: 8494826692673140918}
   - component: {fileID: 8494826692673140912}
+  - component: {fileID: 2955201363523763719}
   m_Layer: 5
   m_Name: Boton_Right
   m_TagString: Untagged
@@ -196,7 +197,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f0c1dc53948c46343b2b569db24ea651, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9213ea7c449589745ab76829488dfea4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -217,6 +218,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c8f4ebcca3e0e4d8f8625c554e6fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2955201363523763719
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494826692673140916}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75aa73061ccf4c048bb3980262d605e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8494826693003406368
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +349,7 @@ GameObject:
   - component: {fileID: 8494826693798626314}
   - component: {fileID: 8494826693798626313}
   - component: {fileID: 8494826693798626315}
+  - component: {fileID: 2524910336121996221}
   m_Layer: 5
   m_Name: Boton_Left
   m_TagString: Untagged
@@ -383,7 +404,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f0c1dc53948c46343b2b569db24ea651, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9213ea7c449589745ab76829488dfea4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -404,6 +425,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c8f4ebcca3e0e4d8f8625c554e6fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2524910336121996221
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494826693798626319}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75aa73061ccf4c048bb3980262d605e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8494826694221883814
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +456,7 @@ GameObject:
   - component: {fileID: 8494826694221883809}
   - component: {fileID: 8494826694221883808}
   - component: {fileID: 8494826694221883810}
+  - component: {fileID: 7526345651119178534}
   m_Layer: 5
   m_Name: Boton_Center
   m_TagString: Untagged
@@ -470,7 +511,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f0c1dc53948c46343b2b569db24ea651, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9213ea7c449589745ab76829488dfea4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -491,3 +532,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c8f4ebcca3e0e4d8f8625c554e6fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7526345651119178534
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494826694221883814}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75aa73061ccf4c048bb3980262d605e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

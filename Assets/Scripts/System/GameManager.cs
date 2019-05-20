@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,10 +9,12 @@ public class GameManager : MonoBehaviour
     public static int SCREEN_HEIGHT;
     public static int SCREEN_WIDHT;
 
+
     private void Awake()
     {
         SCREEN_HEIGHT = Camera.main.pixelHeight;
         SCREEN_WIDHT = Camera.main.pixelWidth;
+
         Debug.Log(" * Starting game in a " + SCREEN_WIDHT + "x" + SCREEN_HEIGHT + " screen.");
         if (singleton != null)
         {
@@ -32,9 +33,9 @@ public class GameManager : MonoBehaviour
         Player.instance.canMove = true;
         if (!debug)
         {
-            StartCoroutine(StartGameCorroutine(5));
             ScreenEffects.singleton.setBlack();
-            AudioManager.singleton.Play("ostRolling");
+            StartCoroutine(StartGameCorroutine(5));
+            AudioManager.singleton.Play("ostMexico");
         }
     }
 
