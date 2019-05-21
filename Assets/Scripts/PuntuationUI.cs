@@ -18,7 +18,8 @@ public class PuntuationUI : MonoBehaviour
 
     public void setPuntuation(int points)
     {
-        _text.text = "GUAU: " + points;
+        if (_text != null)
+            _text.text = "GUAU: " + points;
     }
 
     public void setTextColor(Color c)

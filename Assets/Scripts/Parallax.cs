@@ -16,23 +16,27 @@ public class Parallax : MonoBehaviour
     private Transform[] backgrounds; //Array of backgrounds to be parallaxed
     private float _lastCameraY;
     private bool _canParallax;
+    private Vector3 _initialPos;
+    private Vector3[] _initialBackgrounds;
 
 
     private int mod(int k, int n) { return ((k %= n) < 0) ? k + n : k; }
 
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Awake ()
+    { 
         _lastCameraY = cameraTransform.position.y;
         backgrounds = new Transform[transform.childCount];
+        _initialBackgrounds = new Vector3[transform.childCount];
         for (int i = 0; i < transform.childCount; i++)
         {
             backgrounds[i] = transform.GetChild(i);
+            _initialBackgrounds[i] = transform.GetChild(i).position;
         }
 
         downBck = 0;
-
+        _initialPos = transform.position;
         upBckg = transform.childCount - 1;
 
     }
@@ -52,6 +56,15 @@ public class Parallax : MonoBehaviour
         upBckg = mod(upBckg, backgrounds.Length); 
     }
 
+    public void resetParallax()
+    {
+        transform.position = _initialPos;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).position = _initialBackgrounds[i];
+        }
+    }
 
     public void SetParallax(bool b)
     {

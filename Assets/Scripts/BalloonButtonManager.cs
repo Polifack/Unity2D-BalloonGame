@@ -29,9 +29,7 @@ public class BalloonButtonManager : MonoBehaviour, IPointerDownHandler, IPointer
         if (_clicked == 1) _clickTime = Time.time;
         if (_clicked > 1 && Time.time - _clickTime < clickDelay)
         {
-            _clicked = 0;
-            _clickTime = 0;
-            _anim.Play("Explode");
+            ExplodeButton();
             OnDoubleClick(this, null);
         }
         else if (_clicked > 2 || Time.time - _clickTime > 1) _clicked = 0;
@@ -53,5 +51,12 @@ public class BalloonButtonManager : MonoBehaviour, IPointerDownHandler, IPointer
         OnClickUp += b.StopDeinflate;
         OnDoubleClick += b.Explode;
         _img.color = b.getColor();
+    }
+
+    public void ExplodeButton()
+    {
+        _clicked = 0;
+        _clickTime = 0;
+        _anim.Play("Explode");
     }
 }

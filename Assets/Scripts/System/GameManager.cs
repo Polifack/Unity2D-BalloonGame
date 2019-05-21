@@ -100,13 +100,14 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGame(bool showMenu)
     {
+        StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
         Player.instance.SetupPlayer();
         CameraManager.singleton.FocusOnPlayer();
         LevelGenerator.instance.DestroyAll();
         AudioManager.singleton.StopAll();
         LevelGenerator.instance.Generate();
         ParallaxManager.singleton.startAllParallaxes();
-        StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
+        ParallaxManager.singleton.resetAllParallaxes();
         AudioManager.singleton.Play("ostMexico");
         if (showMenu)
         {

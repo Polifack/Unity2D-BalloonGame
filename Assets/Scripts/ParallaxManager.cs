@@ -27,4 +27,12 @@ public class ParallaxManager : MonoBehaviour
             p.SetParallax(true);
         }
     }
+
+    public void resetAllParallaxes()
+    {
+        foreach (Parallax p in parallaxes)
+        {
+            p.resetParallax();
+        }
+    }
 }

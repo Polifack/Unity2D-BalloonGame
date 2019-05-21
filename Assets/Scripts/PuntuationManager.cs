@@ -21,10 +21,11 @@ public class PuntuationManager
     public IEnumerator reduceToCero()
     {
         PuntuationUI.instance.setTextColor(Color.red);
+        int temp_points = points;
         while (points > 0)
         {
-            points--;
-            PuntuationUI.instance.setPuntuation(points);
+            temp_points--;
+            PuntuationUI.instance.setPuntuation(temp_points);
             yield return null;
         }
     }

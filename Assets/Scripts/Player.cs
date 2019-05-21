@@ -79,11 +79,12 @@ public class Player : MonoBehaviour
     }
 
     private void Balloon_OnExplode(object sender, EventArgs e)
-    {
+    {   
         //Reducimos el numero de globos
         _nBalloons--;
         //Ejecutamos la funcion de re-arrangear
         Balloon b = (Balloon)sender;
+        _balloonButtons[b.balloonId].ExplodeButton();
         Destroy(b.gameObject);
         reArrangePosition(b.balloonId);
     }
