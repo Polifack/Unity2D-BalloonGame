@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paralax : MonoBehaviour
+public class Parallax : MonoBehaviour
 {
     [Tooltip("Tamaño de la imagen usada dividido entre 10")]
     public float backgroundSize;
     public float parallaxSpeed;
     public Transform cameraTransform;
-    public float viewPort = 10;
+    public float viewPort = 10; 
+    
 
     private int downBck;
     private int upBckg;
     private Transform[] backgrounds; //Array of backgrounds to be parallaxed
     private float _lastCameraY;
+    private bool _canParallax;
 
 
     private int mod(int k, int n) { return ((k %= n) < 0) ? k + n : k; }
@@ -50,13 +52,22 @@ public class Paralax : MonoBehaviour
         upBckg = mod(upBckg, backgrounds.Length); 
     }
 
+
+    public void SetParallax(bool b)
+    {
+        _canParallax = b;
+    }
+    
     private void FixedUpdate()
     {
-        float deltaY = cameraTransform.position.y - _lastCameraY;
-        transform.position += Vector3.down * (parallaxSpeed);
-        _lastCameraY = cameraTransform.position.y;
+        if (_canParallax)
+        {
+            float deltaY = cameraTransform.position.y - _lastCameraY;
+            transform.position += Vector3.down * (parallaxSpeed);
+            _lastCameraY = cameraTransform.position.y;
 
-        if (cameraTransform.position.y > (backgrounds[downBck].position.y)+ viewPort)
-            ScrollUp();
+            if (cameraTransform.position.y > (backgrounds[downBck].position.y) + viewPort)
+                ScrollUp();
+        }
     }
 }

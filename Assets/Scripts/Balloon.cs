@@ -65,11 +65,22 @@ public class Balloon : MonoBehaviour
 
     private IEnumerator ExplodeCorroutine()
     {
-        Debug.Log(" *  Lanzando la corrutina de explotar");
         _anim.Play("Explode");
+        Player.instance.addForce(getMyForce());
         yield return new WaitForSeconds(1f);
         airQuantity = 0;
         OnExplode(this, EventArgs.Empty);
+    }
+
+    private Vector2 getMyForce()
+    {
+        switch (balloonId)
+        {
+            case 0: return new Vector2(1, 1);
+            case 1: return new Vector2(-1, 1);
+            case 2: return new Vector2(0, 1);
+        }
+        return new Vector2(0, 0);
     }
 
     private void FixedUpdate()

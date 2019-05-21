@@ -3,11 +3,12 @@ using System.Collections;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
-public class ScreenEffects : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     [Header("Follow Settings")]
     public Player target;
     public bool canMove = false;
+    public float offset = 2f;
 
 
     [Header("Fade-In Settings")]
@@ -35,7 +36,7 @@ public class ScreenEffects : MonoBehaviour
         }
     }
 
-    public static ScreenEffects singleton;
+    public static CameraManager singleton;
 
     private void Awake()
     {
@@ -101,6 +102,10 @@ public class ScreenEffects : MonoBehaviour
         }
     }
 
+    public void FocusOnPlayer()
+    {
+        transform.position = new Vector3(target.transform.position.x, target.transform.position.y+ offset, transform.position.z);
+    }
     private void FixedUpdate()
     {
         if (canMove)

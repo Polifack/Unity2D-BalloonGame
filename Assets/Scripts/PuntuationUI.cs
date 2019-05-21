@@ -20,7 +20,6 @@ public class PuntuationUI : MonoBehaviour
     public void setPuntuation(int points)
     {
         _text.text = "GUAU: " + points;
-
         if (mod(points, 10) == 0) StartCoroutine(spicyEffect());
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -29,28 +30,34 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        LevelGenerator.instance.Generate();
-        if (!debug)
-        {
-            Player.instance.SetupBalloons();
-            StartCoroutine(ScreenEffects.singleton.fadeIn(0.01f));
-            UIManager.singleton.ChangeActiveScreen("uiMainMenu");
-            ScreenEffects.singleton.setBlack();
-            AudioManager.singleton.Play("ostMexico");
-        }
-        else
-        {
-            Player.instance.SetupBalloons();
-            Player.instance.SetupBalloonButtons();
-            UIManager.singleton.ChangeActiveScreen("uiDefault");
-            Player.instance.canMove = true;
-            ScreenEffects.singleton.canMove = true;
-        }
+        InitializeGame();
     }
 
-    public void GoToStartGame()
+    public void GoToStartGame(object sender, EventArgs e)
     {
         StartCoroutine(StartGameCorroutine(1));
+    }
+
+    public void GoToRestartGame(object sender, EventArgs e)
+    {
+        InitializeGame();
+    }
+
+    public void GoToDeathScene()
+    {
+        StartCoroutine(StartDeathCorroutine(1));
+    }
+
+    private IEnumerator StartDeathCorroutine(int delay)
+    {
+        Player.instance.canMove = false;
+        CameraManager.singleton.canMove = false;
+        ParallaxManager.singleton.stopAllParallaxes();
+        StartCoroutine(Pause(delay));
+        Player.instance.enableGravity();
+        yield return new WaitForSeconds(delay);
+        UIManager.singleton.ChangeActiveScreen("uiDeath");
+        yield return null;
     }
 
     private IEnumerator StartGameCorroutine(int delay)
@@ -59,7 +66,43 @@ public class GameManager : MonoBehaviour
         Player.instance.SetupBalloonButtons();
         yield return new WaitForSeconds(delay);
         Player.instance.canMove = true;
-        ScreenEffects.singleton.canMove = true;
+        CameraManager.singleton.canMove = true;
         yield return null;
+    }
+
+    private IEnumerator Pause(int p)
+    {
+        Time.timeScale = 0.0001f;
+        float pauseEndTime = Time.realtimeSinceStartup + 1;
+        while (Time.realtimeSinceStartup < pauseEndTime)
+        {
+            yield return 0;
+        }
+        Time.timeScale = 1;
+    }
+
+    public void InitializeGame()
+    {
+        Player.instance.SetupPlayer();
+        CameraManager.singleton.FocusOnPlayer();
+        LevelGenerator.instance.DestroyAll();
+        LevelGenerator.instance.Generate();
+        ParallaxManager.singleton.startAllParallaxes();
+        if (!debug)
+        {
+            Player.instance.SetupBalloons();
+            StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
+            UIManager.singleton.ChangeActiveScreen("uiMainMenu");
+            CameraManager.singleton.setBlack();
+            AudioManager.singleton.Play("ostMexico");
+        }
+        else
+        {
+            Player.instance.SetupBalloons();
+            UIManager.singleton.ChangeActiveScreen("uiDefault");
+            Player.instance.SetupBalloonButtons();
+            Player.instance.canMove = true;
+            CameraManager.singleton.canMove = true;
+        }
     }
 }

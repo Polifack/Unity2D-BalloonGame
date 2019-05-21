@@ -22,9 +22,19 @@ public class Player : MonoBehaviour
     Rigidbody2D _rb;
     int _nBalloons;
     Vector2 _viewp;
-    bool _isWraping = false;
     PuntuationManager _pointMgr;
-    
+
+    bool _isFalling = false;
+    bool _isWraping = false;
+
+    float _addForceTimeout = 2f;
+    float _addForceC = 0f;
+    float _nextForceX;
+    float _nextForceY;
+
+    Vector3 _startingPosition;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -39,6 +49,7 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _pointMgr = new PuntuationManager();
         _viewp = Camera.main.WorldToViewportPoint(transform.position);
+        _startingPosition = transform.position;
     }
     public void SetupBalloons()
     {
@@ -62,6 +73,12 @@ public class Player : MonoBehaviour
         {
             _balloonButtons[i].setupButton(_balloons[i]);
         }
+    }
+
+    public void SetupPlayer()
+    {
+        _isFalling = false;
+        transform.position = _startingPosition;
     }
 
     private void Balloon_OnExplode(object sender, EventArgs e)
@@ -128,6 +145,10 @@ public class Player : MonoBehaviour
                 _balloons[2].balloonId = 2; //Actualizamos el 'id' del objeto
             }
         }
+        if (_nBalloons == 0)
+        {
+            GameManager.singleton.GoToDeathScene();
+        }
     }
 
     private void swap(int pos1, int pos2)
@@ -156,6 +177,19 @@ public class Player : MonoBehaviour
         return baloonsPositions[ballonPos].position;
     }
 
+    public void enableGravity()
+    {
+        _isFalling = true;
+    }
+
+
+    public void addForce(Vector2 force)
+    {
+        _addForceC = _addForceTimeout;
+        _nextForceX = force.x;
+        _nextForceY = force.y;
+    }
+
     private void FixedUpdate()
     {
         if (canMove)
@@ -163,7 +197,24 @@ public class Player : MonoBehaviour
             _pointMgr.setPoints((int)Mathf.Floor(transform.position.y));
             ScreenWrap();
             transform.eulerAngles = new Vector3(0, 0, comptueX()* baloonWeight);
-            _rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
+
+            if (_addForceC>0)
+            {
+                _rb.MovePosition(_rb.position + new Vector2(comptueX()+ _nextForceX, computeY()+ _nextForceY) * Time.deltaTime * velocity);
+                _addForceC -= Time.deltaTime;
+
+                _nextForceX = Mathf.MoveTowards(_nextForceX, 0, Time.deltaTime);
+                _nextForceY = Mathf.MoveTowards(_nextForceY, 0, Time.deltaTime);
+            }
+            else
+            {
+                _rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
+            }
+            
+        }
+        if (_isFalling)
+        {
+            _rb.MovePosition(_rb.position + new Vector2(0, -5) * Time.deltaTime * velocity);
         }
     }
 }
