@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -33,7 +31,6 @@ public class Player : MonoBehaviour
     float _nextForceY;
 
     Vector3 _startingPosition;
-
 
     private void Awake()
     {
@@ -182,6 +179,15 @@ public class Player : MonoBehaviour
         _isFalling = true;
     }
 
+    public int getPoints()
+    {
+        return _pointMgr.getPoints();
+    }
+
+    public void reduceToCeroPoitns()
+    {
+        StartCoroutine(_pointMgr.reduceToCero());
+    }
 
     public void addForce(Vector2 force)
     {
@@ -194,7 +200,7 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            _pointMgr.setPoints((int)Mathf.Floor(transform.position.y));
+            _pointMgr.setPoints(transform.position.y);
             ScreenWrap();
             transform.eulerAngles = new Vector3(0, 0, comptueX()* baloonWeight);
 

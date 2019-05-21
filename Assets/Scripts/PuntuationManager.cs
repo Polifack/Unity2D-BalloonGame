@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PuntuationManager
@@ -10,10 +9,23 @@ public class PuntuationManager
     {
         points = 0;
     }
-    public void setPoints(int n)
+    public void setPoints(float f)
     {
-        points = n;
+        points = Mathf.FloorToInt(f);
         PuntuationUI.instance.setPuntuation(points);
     }
-
+    public int getPoints()
+    {
+        return points;
+    }
+    public IEnumerator reduceToCero()
+    {
+        PuntuationUI.instance.setTextColor(Color.red);
+        while (points > 0)
+        {
+            points--;
+            PuntuationUI.instance.setPuntuation(points);
+            yield return null;
+        }
+    }
 }

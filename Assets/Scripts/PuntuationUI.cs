@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,17 +19,10 @@ public class PuntuationUI : MonoBehaviour
     public void setPuntuation(int points)
     {
         _text.text = "GUAU: " + points;
-        if (mod(points, 10) == 0) StartCoroutine(spicyEffect());
     }
 
-    public IEnumerator spicyEffect()
+    public void setTextColor(Color c)
     {
-        _text.color = Color.yellow;
-        yield return new WaitForSeconds(0.5f);
-        _text.color = Color.white;
+        _text.color = c;
     }
-
-
-
-
 }

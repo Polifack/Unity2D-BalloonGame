@@ -67,7 +67,10 @@ public class Balloon : MonoBehaviour
     {
         _anim.Play("Explode");
         Player.instance.addForce(getMyForce());
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+        CameraManager.singleton.ShakeX(0.1f);
+        AudioManager.singleton.Play("sfxBalloon");
+        yield return new WaitForSeconds(0.1f);
         airQuantity = 0;
         OnExplode(this, EventArgs.Empty);
     }

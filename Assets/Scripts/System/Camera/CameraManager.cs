@@ -14,7 +14,7 @@ public class CameraManager : MonoBehaviour
     [Header("Fade-In Settings")]
     public Shader shader;
 
-    [Range(0,1.0f)]
+    [Range(0, 1.0f)]
     public float maskValue;
     public Color maskColor = Color.black;
     public Texture2D maskTexture;
@@ -36,7 +36,12 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    [Header("Shake settings")]
+    public float shakeMagnitude;
+    private Vector3 cameraInitPos;
+
     public static CameraManager singleton;
+
 
     private void Awake()
     {
@@ -95,12 +100,61 @@ public class CameraManager : MonoBehaviour
     public IEnumerator fadeIn(float delta)
     {
         maskValue = 1.0f;
-        while (maskValue>0f)
+        while (maskValue > 0f)
         {
             maskValue -= delta;
             yield return null;
         }
     }
+
+    public void Shake(float shakeTime)
+    {
+        cameraInitPos = Camera.main.transform.position;
+        InvokeRepeating("StartShake", 0f, 0.005f);
+        Invoke("StopShake", shakeTime);
+    }
+
+    private void StartShake()
+    {
+        float cameraShakeOffsetX = Random.value * shakeMagnitude * 2 - shakeMagnitude;
+        float cameraShakeOffsetY = Random.value * shakeMagnitude * 2 - shakeMagnitude;
+
+        Vector3 cameraIntermediatePosition = Camera.main.transform.position;
+        cameraIntermediatePosition.x += cameraShakeOffsetX;
+        cameraIntermediatePosition.y += cameraShakeOffsetY;
+
+        Camera.main.transform.position = cameraIntermediatePosition;
+    }
+    private void StopShake()
+    {
+        CancelInvoke("StartShake");
+        Camera.main.transform.position = cameraInitPos;
+    }
+
+    public void ShakeX(float shakeTime)
+    {
+        cameraInitPos = Camera.main.transform.position;
+        InvokeRepeating("StartShakeX", 0f, 0.005f);
+        Invoke("StopShakeX", shakeTime);
+    }
+
+    private void StartShakeX()
+    {
+        float cameraShakeOffsetX = Random.value * shakeMagnitude * 2 - shakeMagnitude;
+
+        Vector3 cameraIntermediatePosition = transform.position;
+        cameraIntermediatePosition.x += cameraShakeOffsetX;
+
+        
+        transform.position = new Vector3 (cameraIntermediatePosition.x, transform.position.y, transform.position.z);
+    }
+
+    private void StopShakeX()
+    {
+        CancelInvoke("StartShakeX");
+        Camera.main.transform.position = cameraInitPos;
+    }
+
 
     public void FocusOnPlayer()
     {

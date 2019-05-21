@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeGame();
+        InitializeGame(!debug);
     }
 
     public void GoToStartGame(object sender, EventArgs e)
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToRestartGame(object sender, EventArgs e)
     {
-        InitializeGame();
+        InitializeGame(false);
     }
 
     public void GoToDeathScene()
@@ -53,9 +53,18 @@ public class GameManager : MonoBehaviour
         Player.instance.canMove = false;
         CameraManager.singleton.canMove = false;
         ParallaxManager.singleton.stopAllParallaxes();
+        AudioManager.singleton.Stop("ostMexico");
         StartCoroutine(Pause(delay));
         Player.instance.enableGravity();
-        yield return new WaitForSeconds(delay);
+        CoinMananager.singleton.CreateCoins(Player.instance.getPoints(), Player.instance.transform.position);
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.singleton.Play("sfxFall");
+        Player.instance.reduceToCeroPoitns();
+        yield return new WaitForSeconds(2);
+        AudioManager.singleton.Play("sfxHit");
+        CameraManager.singleton.Shake(0.5f);
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.singleton.Play("ostScrapping");
         UIManager.singleton.ChangeActiveScreen("uiDeath");
         yield return null;
     }
@@ -81,20 +90,27 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void InitializeGame()
+    public void InitializeMainMenu()
+    {
+        Player.instance.SetupBalloons();
+
+        UIManager.singleton.ChangeActiveScreen("uiMainMenu");
+        CameraManager.singleton.setBlack();
+    }
+
+    public void InitializeGame(bool showMenu)
     {
         Player.instance.SetupPlayer();
         CameraManager.singleton.FocusOnPlayer();
         LevelGenerator.instance.DestroyAll();
+        AudioManager.singleton.StopAll();
         LevelGenerator.instance.Generate();
         ParallaxManager.singleton.startAllParallaxes();
-        if (!debug)
+        StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
+        AudioManager.singleton.Play("ostMexico");
+        if (showMenu)
         {
-            Player.instance.SetupBalloons();
-            StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
-            UIManager.singleton.ChangeActiveScreen("uiMainMenu");
-            CameraManager.singleton.setBlack();
-            AudioManager.singleton.Play("ostMexico");
+           InitializeMainMenu();
         }
         else
         {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4857583372111934331}
   - component: {fileID: 4857583372111934330}
   - component: {fileID: 1514395568}
+  - component: {fileID: 1962392666}
   m_Layer: 0
   m_Name: _gameManager
   m_TagString: Untagged
@@ -61,6 +62,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audios:
   - {fileID: 11400000, guid: bb58c936839942b478deeb4ec16d7326, type: 2}
+  - {fileID: 11400000, guid: ba2fc63db554e474ebe67929d6072d70, type: 2}
+  - {fileID: 11400000, guid: 77e76f20b92639548997f76ce7974549, type: 2}
+  - {fileID: 11400000, guid: 195219637370ea04ebd7125ffa8d2195, type: 2}
+  - {fileID: 11400000, guid: 8601ef4566f7dbc4a8ae376092f18110, type: 2}
+  - {fileID: 11400000, guid: 50733d5d8d77035439e572a29d0256b5, type: 2}
 --- !u!114 &4857583372111934330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,6 +82,7 @@ MonoBehaviour:
   screens:
   - {fileID: 11400000, guid: d8cbf1692734a9441a47152cb72040a2, type: 2}
   - {fileID: 11400000, guid: 4503830e4beed22418b36aea0afccf09, type: 2}
+  - {fileID: 11400000, guid: 491e7f440fbd74c4b88e72dbae9df91a, type: 2}
 --- !u!114 &1514395568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,3 +99,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aec12c8b3ff42104db4367b58bdb674a, type: 2}
   - {fileID: 11400000, guid: aec12c8b3ff42104db4367b58bdb674a, type: 2}
   - {fileID: 11400000, guid: aec12c8b3ff42104db4367b58bdb674a, type: 2}
+--- !u!114 &1962392666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4857583372111934309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffe1f1595be92040b9776b5a6e84667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parallaxes:
+  - {fileID: 0}

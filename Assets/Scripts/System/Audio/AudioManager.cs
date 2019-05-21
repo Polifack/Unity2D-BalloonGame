@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -56,5 +54,13 @@ public class AudioManager : MonoBehaviour
         }
 
         audio.source.Stop();
+    }
+
+    public void StopAll()
+    {
+        foreach( Audio a in audios)
+        {
+            a.source.Stop();
+        }
     }
 }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9c0b15c1d1cb846850eecd09a7cfb5, type: 3}
+  m_Name: ostScrapping
+  m_EditorClassIdentifier: 
+  nameAudio: ostScrapping
+  source: {fileID: 0}
+  clip: {fileID: 8300000, guid: 504212937b6b27f438cdd0e156a5e483, type: 3}
+  loop: 1
+  volume: 1
+  volumeDelta: 0.1
+  pitch: 1
+  pitchDelta: 0
