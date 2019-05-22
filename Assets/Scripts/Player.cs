@@ -161,6 +161,37 @@ public class Player : MonoBehaviour
         _nextForceY = force.y;
     }
 
+    private float xDirection;
+
+    public void OnStartMovingLeft(object sender, EventArgs args)
+    {
+        xDirection = -1;
+    }
+    public void OnStartMovingRight(object sender, EventArgs args)
+    {
+        xDirection = 1;
+    }
+
+    public void OnStopMovingLeft(object sender, EventArgs args)
+    {
+        xDirection = 0;
+    }
+    public void OnStopMovingRight(object sender, EventArgs args)
+    {
+        xDirection = 0;
+    }
+
+    public void OnExplodeLeft(object sender, EventArgs args)
+    {
+        _balloons[0].Explode(null, EventArgs.Empty);
+    }
+    public void OnExplodeRight(object sender, EventArgs args)
+    {
+        _balloons[1].Explode(null, EventArgs.Empty);
+    }
+
+    
+
     private void FixedUpdate()
     {   
         //Normal game state
@@ -188,7 +219,7 @@ public class Player : MonoBehaviour
             //Normal Movement
             else
             {
-                _rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
+                _rb.MovePosition(_rb.position + new Vector2(xDirection, 1) * Time.deltaTime * velocity);
             }
 
         }
