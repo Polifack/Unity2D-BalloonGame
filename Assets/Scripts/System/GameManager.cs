@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator StartGameCorroutine(int delay)
     {
         UIManager.singleton.ChangeActiveScreen("uiDefault");
-        Player.instance.SetupBalloonButtons();
         yield return new WaitForSeconds(delay);
         Player.instance.canMove = true;
         CameraManager.singleton.canMove = true;
@@ -93,33 +92,38 @@ public class GameManager : MonoBehaviour
     public void InitializeMainMenu()
     {
         Player.instance.SetupBalloons();
-
         UIManager.singleton.ChangeActiveScreen("uiMainMenu");
         CameraManager.singleton.setBlack();
     }
 
-    public void InitializeGame(bool showMenu)
+    private IEnumerator InitializeGameCR(bool showMenu)
     {
-        StartCoroutine(CameraManager.singleton.fadeIn(0.01f));
-        Player.instance.SetupPlayer();
+        StartCoroutine(CameraManager.singleton.fadeIn(0.5f));
+        ParallaxManager.singleton.resetAllParallaxes();
+        ParallaxManager.singleton.startAllParallaxes();
+        Player.instance.InitializePlayer();
         CameraManager.singleton.FocusOnPlayer();
         LevelGenerator.instance.DestroyAll();
         AudioManager.singleton.StopAll();
         LevelGenerator.instance.Generate();
-        ParallaxManager.singleton.startAllParallaxes();
-        ParallaxManager.singleton.resetAllParallaxes();
+
+
         AudioManager.singleton.Play("ostMexico");
+        yield return null;
         if (showMenu)
         {
-           InitializeMainMenu();
+            InitializeMainMenu();
         }
         else
         {
             Player.instance.SetupBalloons();
             UIManager.singleton.ChangeActiveScreen("uiDefault");
-            Player.instance.SetupBalloonButtons();
             Player.instance.canMove = true;
             CameraManager.singleton.canMove = true;
         }
+    }
+    public void InitializeGame(bool showMenu)
+    {
+        StartCoroutine(InitializeGameCR(showMenu));
     }
 }

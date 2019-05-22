@@ -26,6 +26,8 @@ public class Balloon : MonoBehaviour
         _deinflateCounter = deinflateCooldown;
         _anim.Play("Idle");
     }
+
+    //Eventos
     public void StartDeinflate(object sender, EventArgs e)
     {
         _deinflating = true;
@@ -38,6 +40,8 @@ public class Balloon : MonoBehaviour
     {
         StartCoroutine(ExplodeCorroutine());
     }
+
+    //Funciones de Movimiento
     public void Inflate()
     {
         airQuantity = Mathf.Clamp((airQuantity + inflateSpeed * Time.deltaTime), 0f, 1f);
@@ -53,6 +57,7 @@ public class Balloon : MonoBehaviour
         _nextPositionIndex = next;
     }
 
+    //Color editor
     public void setColor (Color c)
     {
         _sr.color = c;
@@ -87,7 +92,6 @@ public class Balloon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Cambiar por Animator
         transform.localScale = new Vector3(transform.localScale.x, airQuantity, transform.localScale.z);
 
         if (_deinflating)

@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     public Transform[] baloonsPositions;
     public Color[] colors;
 
-    BalloonButtonManager[] _balloonButtons;
     Balloon[] _balloons;
     Rigidbody2D _rb;
     int _nBalloons;
@@ -48,6 +47,8 @@ public class Player : MonoBehaviour
         _viewp = Camera.main.WorldToViewportPoint(transform.position);
         _startingPosition = transform.position;
     }
+
+    //Setup Functions
     public void SetupBalloons()
     {
         _nBalloons = 3;
@@ -62,21 +63,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetupBalloonButtons()
-    {
-        _balloonButtons = new BalloonButtonManager[_nBalloons];
-        _balloonButtons = UIManager.singleton.GetActiveCanvas().GetComponentsInChildren<BalloonButtonManager>();
-        for (int i = 0; i < _nBalloons; i++)
-        {
-            _balloonButtons[i].setupButton(_balloons[i]);
-        }
-    }
-
-    public void SetupPlayer()
+    public void InitializePlayer()
     {
         _isFalling = false;
         transform.position = _startingPosition;
     }
+
+    public Balloon getRightBalloon()
+    {
+        return _balloons[0];
+    }
+    public Balloon getLeftBalloon()
+    {
+        return _balloons[1];
+    }
+
 
     private void Balloon_OnExplode(object sender, EventArgs e)
     {   
@@ -84,9 +85,11 @@ public class Player : MonoBehaviour
         _nBalloons--;
         //Ejecutamos la funcion de re-arrangear
         Balloon b = (Balloon)sender;
-        _balloonButtons[b.balloonId].ExplodeButton();
         Destroy(b.gameObject);
-        reArrangePosition(b.balloonId);
+        if (_nBalloons == 0)
+        {
+            GameManager.singleton.GoToDeathScene();
+        }
     }
 
     private float comptueX()
@@ -108,45 +111,6 @@ public class Player : MonoBehaviour
         if (_balloons[2]!=null)
             speed = _balloons[2].airQuantity;
         return speed;
-    }
-
-    //Al rearrangear positions tambien hay que rearrangear los botones
-    private void reArrangePosition(int position)
-    {
-        if (_nBalloons == 2)
-        {
-            if (position == 0)
-            {
-                swap(0, 2); //Si perdimos el globo izquierdo, cambiamos el superior por el izquierdo.
-                _balloons[0].moveToNextBalloon(0);
-                _balloons[0].balloonId = 0; //Actualizamos el 'id' del objeto
-            }
-            if (position == 1)
-            {
-                swap(1, 2); //Si perdimos el globo derecho, cambiamos el superior por el derecho.
-                _balloons[1].moveToNextBalloon(1);  //Actualizamos la posicion del objeto
-                _balloons[1].balloonId = 1; //Actualizamos el 'id' del objeto
-            }
-        }
-        if (_nBalloons == 1)
-        {
-            if (position == 0)
-            {
-                swap(2, 1); //Si perdimos el globo izquierdo, cambiamos el derecho por el superior.
-                _balloons[2].moveToNextBalloon(2); //Actualizamos la posicion del objeto
-                _balloons[2].balloonId = 2; //Actualizamos el 'id' del objeto
-            }
-            if (position == 1)
-            {
-                swap(2, 0); //Si perdimos el globo derecho, cambiamos el izquierdo por el superior.
-                _balloons[2].moveToNextBalloon(2);  //Actualizamos la posicion del objeto
-                _balloons[2].balloonId = 2; //Actualizamos el 'id' del objeto
-            }
-        }
-        if (_nBalloons == 0)
-        {
-            GameManager.singleton.GoToDeathScene();
-        }
     }
 
     private void swap(int pos1, int pos2)
@@ -198,13 +162,20 @@ public class Player : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    {   
+        //Normal game state
         if (canMove)
         {
+            //Points
             _pointMgr.setPoints(transform.position.y);
+
+            //Screen Wrap
             ScreenWrap();
+
+            //Rotation
             transform.eulerAngles = new Vector3(0, 0, comptueX()* baloonWeight);
 
+            //Balloon Force
             if (_addForceC>0)
             {
                 _rb.MovePosition(_rb.position + new Vector2(comptueX()+ _nextForceX, computeY()+ _nextForceY) * Time.deltaTime * velocity);
@@ -213,12 +184,16 @@ public class Player : MonoBehaviour
                 _nextForceX = Mathf.MoveTowards(_nextForceX, 0, Time.deltaTime);
                 _nextForceY = Mathf.MoveTowards(_nextForceY, 0, Time.deltaTime);
             }
+
+            //Normal Movement
             else
             {
                 _rb.MovePosition(_rb.position + new Vector2(comptueX(), computeY()) * Time.deltaTime * velocity);
             }
-            
+
         }
+
+        //Death State
         if (_isFalling)
         {
             _rb.MovePosition(_rb.position + new Vector2(0, -5) * Time.deltaTime * velocity);

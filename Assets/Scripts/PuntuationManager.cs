@@ -22,7 +22,7 @@ public class PuntuationManager
     {
         PuntuationUI.instance.setTextColor(Color.red);
         int temp_points = points;
-        while (points > 0)
+        while (temp_points > 0)
         {
             temp_points--;
             PuntuationUI.instance.setPuntuation(temp_points);

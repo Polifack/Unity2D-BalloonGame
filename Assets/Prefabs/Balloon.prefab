@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8300881927123448530}
   - component: {fileID: 8300881927123448529}
   - component: {fileID: 8300881927123448528}
-  - component: {fileID: 8300881927123448531}
   - component: {fileID: 5652279322452140613}
   m_Layer: 0
   m_Name: Balloon
@@ -98,22 +97,6 @@ MonoBehaviour:
   inflateSpeed: 0.5
   deinflateCooldown: 1
   balloonId: 0
---- !u!58 &8300881927123448531
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8300881927123448535}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.07}
-  serializedVersion: 2
-  m_Radius: 0.24417093
 --- !u!95 &5652279322452140613
 Animator:
   serializedVersion: 3

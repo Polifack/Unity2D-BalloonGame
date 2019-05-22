@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
-public class CustomButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class CustomButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Sprite normalState;
     public Sprite pressState;
@@ -15,8 +15,13 @@ public class CustomButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public event EventHandler e_OnPointerUp;
     public event EventHandler e_OnPointerEnter;
     public event EventHandler e_OnPointerExit;
+    public event EventHandler e_OnDoubleClick;
 
-    private Image _img;
+    Image _img;
+
+    int _clicked = 0;       //Counter to check how many times we pressed the button
+    float _clickTime = 0;   //Counter to check time between clicks
+    float _clickDelay = 2f; //Time allowed between clicks
 
     private void Awake()
     {
@@ -49,4 +54,17 @@ public class CustomButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         _img.sprite = normalState;
         e_OnPointerUp?.Invoke(this, null);
     }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        _clicked++;
+        if (_clicked == 1) _clickTime = Time.time;
+        if (_clicked > 1 && Time.time - _clickTime < _clickDelay)
+        {
+            _clicked = 0;
+            _clickTime = 0;
+            e_OnDoubleClick?.Invoke(this, null);
+        }
+        else if (_clicked > 2 || Time.time - _clickTime > 1) _clicked = 0;
+    }
+
 }
